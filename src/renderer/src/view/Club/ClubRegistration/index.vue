@@ -16,20 +16,13 @@
       <el-table-column label="操作" width="200">
         <template #default="scope">
           <el-button type="primary" size="small" @click="handleApply(scope.row)"> 报名 </el-button>
-          <el-button type="info" size="small" @click="handleViewDetails(scope.row)">
-            查看详细
-          </el-button>
+          <el-button type="info" size="small" @click="openDialog(scope.row)"> 查看详细 </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 查看详细的对话框 -->
-    <el-dialog
-      v-model:visible="dialogVisible"
-      title="社团详情"
-      width="500px"
-      :before-close="handleDialogClose"
-    >
+    <el-dialog v-model="dialogVisible" title="社团详情" width="500px">
       <div v-if="selectedClub">
         <p><strong>社团名称：</strong>{{ selectedClub.club_name }}</p>
         <p><strong>社团简介：</strong>{{ selectedClub.club_introduction }}</p>
@@ -37,9 +30,9 @@
         <p><strong>活动场地：</strong>{{ selectedClub.activity_venue }}</p>
       </div>
       <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">关闭</el-button>
-        </span>
+        <div class="dialog-footer">
+          <el-button @click="closeDialog">关闭</el-button>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -69,7 +62,7 @@ function isAxiosError(error: unknown): error is AxiosError {
 const clubList = ref<Club[]>([])
 
 // 对话框状态和选中的社团
-const dialogVisible = ref(true)
+const dialogVisible = ref(false)
 const selectedClub = ref<Club | null>(null)
 
 // 获取社团列表
@@ -114,19 +107,18 @@ const handleApply = async (club: Club): Promise<void> => {
   }
 }
 
-// 查看社团详情
-const handleViewDetails = (club: Club): void => {
-  console.log('打开对话框')
+// 打开对话框
+const openDialog = (club: Club): void => {
   selectedClub.value = club
   dialogVisible.value = true
-  console.log(dialogVisible.value)
 }
 
 // 关闭对话框
-const handleDialogClose = (): void => {
+const closeDialog = (): void => {
   dialogVisible.value = false
   selectedClub.value = null
 }
+
 
 // 页面加载时获取社团列表
 onMounted(() => {
@@ -152,8 +144,11 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
-  /* 标准属性 */
-  line-clamp: 2; /* 限制显示两行 */
-  box-orient: vertical;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 </style>

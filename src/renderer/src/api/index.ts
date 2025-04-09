@@ -205,3 +205,23 @@ export const getClubApplicationList = async (): Promise<AxiosResponse> => {
 export const getOwnedClubs = async (): Promise<AxiosResponse> => {
   return axios.get(`${API_BASE_URL}/club/owned`)
 }
+
+export const getAllMemberApplications = async (): Promise<AxiosResponse> => {
+  return axios.get(`${API_BASE_URL}/club/member/all_applications`)
+}
+
+/**
+ * 审批社团成员申请
+ * @param applyId - 申请 ID
+ * @param status - 审批状态 ("approved" 或 "rejected")
+ * @returns AxiosResponse
+ */
+export const approveMemberApplication = async (
+  applyId: number,
+  status: string
+): Promise<AxiosResponse> => {
+  return axios.post(`${API_BASE_URL}/club/member/approve`, {
+    apply_id: applyId,
+    status
+  })
+}

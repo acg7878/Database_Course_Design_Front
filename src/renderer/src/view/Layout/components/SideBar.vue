@@ -61,7 +61,12 @@ const clubMenuItems = computed(
       ?.children.filter(
         (child) =>
           typeof child.name === 'string' &&
-          ['club-registration', 'create-club', 'club-approval'].includes(child.name)
+          [
+            'club-registration',
+            'create-club',
+            'club-approval',
+            'club-registration-approval'
+          ].includes(child.name)
       ) || []
 )
 

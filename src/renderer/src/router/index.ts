@@ -3,6 +3,7 @@ import Layout from '../view/Layout/index.vue'
 import Login from '../view/Login/index.vue'
 import Register from '../view/Register/index.vue'
 import ClubRegistration from '../view/Club/ClubRegistration/index.vue'
+import clubRegistrationApproval from '@renderer/view/Club/ClubRegistration/club-registration-approval.vue'
 import CreateClub from '../view/Club/CreateClub/index.vue'
 import ActivityRegistration from '../view/Activity/ActivityRegistration/index.vue'
 import ActivityPayment from '../view/Activity/ActivityPayment/index.vue'
@@ -51,6 +52,16 @@ const routes = [
         }
       },
       {
+        path: 'club-registration-approval',
+        name: 'club-registration-approval',
+        component: clubRegistrationApproval,
+        meta: {
+          title: '社团报名审核',
+          icon: 'create',
+          requiresAuth: true // 需要登录
+        }
+      },
+      {
         path: 'activity-registration',
         name: 'activity-registration',
         component: ActivityRegistration,
@@ -85,7 +96,7 @@ const routes = [
         name: 'club-approval',
         component: ClubApproval,
         meta: {
-          title: '社团审批',
+          title: '创建社团审批',
           icon: 'approval',
           requiresAuth: true // 需要登录
         }

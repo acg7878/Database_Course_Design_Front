@@ -233,3 +233,12 @@ export const approveMemberApplication = async (
 export const getAllActivitiesByUser = async (): Promise<AxiosResponse> => {
   return axios.get(`${API_BASE_URL}/club/activity/all_by_user`)
 }
+
+/**
+ * 获取指定社团的成员列表
+ * @param clubId - 社团 ID
+ * @returns AxiosResponse
+ */
+export const getClubMembers = async (clubId: string): Promise<AxiosResponse> => {
+  return axios.get(`${API_BASE_URL}/club/member/list/${clubId}`)
+}

@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
+import { hasPermission } from '@renderer/utils/permission'
 // 获取当前路由和路由配置
 const route = useRoute()
 const router = useRouter()
@@ -53,34 +53,29 @@ const router = useRouter()
 const activeMenu = computed(() => route.path)
 
 // 筛选社团相关的菜单项
-const clubMenuItems = computed(
-  () =>
-    router
-      .getRoutes()
-      .find((r) => r.name === 'Dashboard')
-      ?.children.filter(
-        (child) =>
-          typeof child.name === 'string' &&
-          [
-            'club-registration',
-            'create-club',
-            'club-approval',
-            'club-registration-approval'
-          ].includes(child.name)
-      ) || []
+// 获取 Dashboard 子路由
+const dashboardChildren = computed(
+  () => router.getRoutes().find((r) => r.name === 'Dashboard')?.children || []
 )
 
-// 筛选活动相关的菜单项
-const activityMenuItems = computed(
-  () =>
-    router
-      .getRoutes()
-      .find((r) => r.name === 'Dashboard')
-      ?.children.filter(
-        (child) =>
-          typeof child.name === 'string' &&
-          ['activity-registration', 'activity-payment', 'create-activity'].includes(child.name)
-      ) || []
+// 社团菜单
+const clubMenuItems = computed(() =>
+  dashboardChildren.value.filter(
+    (child) =>
+      ['club-registration', 'create-club', 'club-approval', 'club-registration-approval'].includes(
+        child.name as string
+      ) && hasPermission(child)
+  )
+)
+
+// 活动菜单
+const activityMenuItems = computed(() =>
+  dashboardChildren.value.filter(
+    (child) =>
+      ['activity-registration', 'activity-payment', 'create-activity'].includes(
+        child.name as string
+      ) && hasPermission(child)
+  )
 )
 </script>
 

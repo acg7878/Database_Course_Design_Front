@@ -65,7 +65,6 @@ const fetchAndStoreUserRole = async (): Promise<void> => {
 
 // 调用函数
 
-
 interface ErrorResponse {
   error: string
 }
@@ -92,7 +91,7 @@ const handleLogin = async (): Promise<void> => {
         title: '成功',
         message: data.message || '登录成功'
       })
-      fetchAndStoreUserRole()
+      await fetchAndStoreUserRole() // 添加await，保证获取到权限再进入登录
       localStorage.setItem('user_id', data.user_id)
       router.push('/dashboard')
     } else {

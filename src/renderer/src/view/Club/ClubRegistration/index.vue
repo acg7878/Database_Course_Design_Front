@@ -119,7 +119,6 @@ const closeDialog = (): void => {
   selectedClub.value = null
 }
 
-
 // 页面加载时获取社团列表
 onMounted(() => {
   fetchClubList()
@@ -140,6 +139,7 @@ h2 {
 .text-ellipsis {
   display: -webkit-box;
   -webkit-line-clamp: 2; /* 限制显示两行 */
+  line-clamp: 2; /* 标准属性，增加兼容性 */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

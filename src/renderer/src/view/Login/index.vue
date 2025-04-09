@@ -35,6 +35,36 @@ import { ElNotification } from 'element-plus'
 import { loginUser } from '@renderer/api'
 import { useRouter } from 'vue-router'
 import { AxiosError } from 'axios'
+import { getUserRole } from '@renderer/api/'
+
+// 中文角色映射为英文
+const roleMapping: Record<string, string> = {
+  社长: 'president',
+  社员: 'member',
+  管理员: 'admin'
+}
+
+// 调用接口并存储到 localStorage
+const fetchAndStoreUserRole = async (): Promise<void> => {
+  try {
+    // 调用接口获取用户权限
+    const { data } = await getUserRole() // 替换为实际接口地址
+    const userType = data.user_type // 假设后端返回的字段是 user_type，例如 "社员"
+
+    // 映射中文角色为英文
+    const mappedRole = roleMapping[userType] || 'unknown'
+
+    // 存储到 localStorage
+    localStorage.setItem('user_role', mappedRole)
+
+    console.log(`用户角色已存储为: ${mappedRole}`)
+  } catch (error) {
+    console.error('获取用户权限失败:', error)
+  }
+}
+
+// 调用函数
+
 
 interface ErrorResponse {
   error: string
@@ -54,7 +84,6 @@ const handleLogin = async (): Promise<void> => {
       })
       return
     }
-
     // 调用登录接口
     const { data, status } = await loginUser(username.value, password.value)
     // 登录成功处理
@@ -63,6 +92,7 @@ const handleLogin = async (): Promise<void> => {
         title: '成功',
         message: data.message || '登录成功'
       })
+      fetchAndStoreUserRole()
       localStorage.setItem('user_id', data.user_id)
       router.push('/dashboard')
     } else {

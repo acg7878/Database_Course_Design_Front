@@ -27,8 +27,7 @@ const routes = [
     component: Layout,
     meta: {
       title: '仪表盘',
-      icon: 'dashboard',
-      requiresAuth: true // 需要登录
+      icon: 'dashboard'
     },
     children: [
       {
@@ -38,7 +37,7 @@ const routes = [
         meta: {
           title: '社团报名',
           icon: 'club',
-          requiresAuth: true // 需要登录
+          roles: ['member', 'president']
         }
       },
       {
@@ -48,7 +47,7 @@ const routes = [
         meta: {
           title: '创建社团',
           icon: 'create',
-          requiresAuth: true // 需要登录
+          roles: ['president', 'member']
         }
       },
       {
@@ -58,7 +57,7 @@ const routes = [
         meta: {
           title: '社团报名审核',
           icon: 'create',
-          requiresAuth: true // 需要登录
+          roles: ['president']
         }
       },
       {
@@ -68,7 +67,8 @@ const routes = [
         meta: {
           title: '活动报名',
           icon: 'activity',
-          requiresAuth: true // 需要登录
+          requiresAuth: true,
+          roles: ['member', 'president']
         }
       },
       {
@@ -78,7 +78,7 @@ const routes = [
         meta: {
           title: '活动缴费',
           icon: 'payment',
-          requiresAuth: true // 需要登录
+          roles: ['member', 'president']
         }
       },
       {
@@ -88,7 +88,7 @@ const routes = [
         meta: {
           title: '创建活动',
           icon: 'create-activity',
-          requiresAuth: true // 需要登录
+          roles: ['president']
         }
       },
       {
@@ -98,7 +98,7 @@ const routes = [
         meta: {
           title: '创建社团审批',
           icon: 'approval',
-          requiresAuth: true // 需要登录
+          roles: ['admin']
         }
       }
     ]

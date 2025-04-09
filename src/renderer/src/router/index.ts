@@ -11,7 +11,7 @@ import CreateActivity from '../view/Activity/CreateActivity/index.vue'
 import ClubApproval from '../view/Club/ClubApproval/index.vue'
 import NotFound from '../view/Error/NotFound/index.vue'
 import Forbidden from '../view/Error/Forbidden/index.vue'
-
+import ClubMember from '../view/Club/ClubMember/index.vue'
 const routes = [
   {
     path: '/',
@@ -58,6 +58,16 @@ const routes = [
           title: '社团报名审核',
           icon: 'create',
           roles: ['president']
+        }
+      },
+      {
+        path: 'club-member',
+        name: 'club-member',
+        component: ClubMember,
+        meta: {
+          title: '社团成员管理',
+          icon: 'create',
+          roles: ['president', 'admin']
         }
       },
       {

@@ -142,4 +142,17 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, _from, next) => {
+  const userRole = localStorage.getItem('user_role') || '' // 如果为 null，提供默认值
+  const allowedRoles = to.meta.roles as string[] | undefined // 当前路由所需权限
+
+  if (!allowedRoles || allowedRoles.includes(userRole)) {
+    // 没有设置 roles 或 当前用户在允许列表中
+    next()
+  } else {
+    // 不在权限内，跳转 403 页面
+    next('/403')
+  }
+})
+
 export default router

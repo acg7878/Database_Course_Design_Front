@@ -225,3 +225,11 @@ export const approveMemberApplication = async (
     status
   })
 }
+
+/**
+ * 获取当前用户所属社团的所有活动
+ * @returns AxiosResponse
+ */
+export const getAllActivitiesByUser = async (): Promise<AxiosResponse> => {
+  return axios.get(`${API_BASE_URL}/club/activity/all_by_user`)
+}

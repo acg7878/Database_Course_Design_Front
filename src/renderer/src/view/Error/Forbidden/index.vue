@@ -1,7 +1,7 @@
 <template>
   <div class="not-found">
     <h1>403</h1>
-    <p>抱歉，您访问的页面不存在。</p>
+    <p>抱歉，您没有权限捏。</p>
     <el-button type="primary" @click="goHome">返回首页</el-button>
   </div>
 </template>

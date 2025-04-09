@@ -173,11 +173,17 @@ export const getActivityRegistrationList = async (): Promise<AxiosResponse> => {
 // 社团申请相关接口
 export const submitClubApplication = async (
   clubName: string,
-  clubIntroduction: string
+  clubIntroduction: string,
+  contactInfo: string,
+  activityVenue: string,
+  approvalId: number
 ): Promise<AxiosResponse> => {
   return axios.post(`${API_BASE_URL}/club/approval/submit`, {
     club_name: clubName,
-    club_introduction: clubIntroduction
+    club_introduction: clubIntroduction,
+    contact_info: contactInfo,
+    activity_venue: activityVenue,
+    founder_id: approvalId
   })
 }
 

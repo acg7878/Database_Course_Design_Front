@@ -17,6 +17,16 @@
         />
       </el-form-item>
 
+      <!-- 联系方式 -->
+      <el-form-item label="联系方式" prop="contactInfo">
+        <el-input v-model="form.contactInfo" placeholder="请输入联系方式" />
+      </el-form-item>
+
+      <!-- 活动场地 -->
+      <el-form-item label="活动场地" prop="activityVenue">
+        <el-input v-model="form.activityVenue" placeholder="请输入活动场地" />
+      </el-form-item>
+
       <!-- 提交按钮 -->
       <el-form-item>
         <el-button type="primary" @click="handleSubmit">提交申请</el-button>
@@ -34,7 +44,10 @@ import { submitClubApplication } from '@renderer/api'
 // 表单数据
 const form = ref({
   clubName: '',
-  clubIntroduction: ''
+  clubIntroduction: '',
+  contactInfo: '',
+  activityVenue: '',
+  approvalId: Number(localStorage.getItem('user_id')) // 假设创始人 ID 为 1，可以根据实际登录用户动态设置
 })
 
 // 表单校验规则
@@ -46,6 +59,14 @@ const rules = {
   clubIntroduction: [
     { required: true, message: '请输入社团简介', trigger: 'blur' },
     { min: 10, max: 200, message: '社团简介长度应在 10 到 200 个字符之间', trigger: 'blur' }
+  ],
+  contactInfo: [
+    { required: true, message: '请输入联系方式', trigger: 'blur' },
+    { min: 5, max: 50, message: '联系方式长度应在 5 到 50 个字符之间', trigger: 'blur' }
+  ],
+  activityVenue: [
+    { required: true, message: '请输入活动场地', trigger: 'blur' },
+    { min: 5, max: 100, message: '活动场地长度应在 5 到 100 个字符之间', trigger: 'blur' }
   ]
 }
 
@@ -59,7 +80,13 @@ const handleSubmit = async (): Promise<void> => {
     await formRef.value?.validate()
 
     // 调用接口提交数据
-    const { data } = await submitClubApplication(form.value.clubName, form.value.clubIntroduction)
+    const { data } = await submitClubApplication(
+      form.value.clubName,
+      form.value.clubIntroduction,
+      form.value.contactInfo,
+      form.value.activityVenue,
+      form.value.approvalId
+    )
 
     // 显示成功提示
     ElMessage.success(data.message || '申请提交成功！')

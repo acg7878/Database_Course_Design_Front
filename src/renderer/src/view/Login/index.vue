@@ -52,7 +52,7 @@ const fetchAndStoreUserRole = async (): Promise<void> => {
     const userType = data.user_type // 假设后端返回的字段是 user_type，例如 "社员"
 
     // 映射中文角色为英文
-    const mappedRole = roleMapping[userType] || 'unknown'
+    const mappedRole = roleMapping[userType]
 
     // 存储到 localStorage
     localStorage.setItem('user_role', mappedRole)

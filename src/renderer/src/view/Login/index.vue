@@ -56,10 +56,9 @@ const handleLogin = async (): Promise<void> => {
     }
 
     // 调用登录接口
-    const { data } = await loginUser(username.value, password.value)
-
+    const { data, status } = await loginUser(username.value, password.value)
     // 登录成功处理
-    if (data.message === '登录成功') {
+    if (status === 200) {
       ElNotification.success({
         title: '成功',
         message: data.message || '登录成功'

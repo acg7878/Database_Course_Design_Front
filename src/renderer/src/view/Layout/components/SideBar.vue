@@ -76,9 +76,12 @@ const clubMenuItems = computed(() =>
 const activityMenuItems = computed(() =>
   dashboardChildren.value.filter(
     (child) =>
-      ['activity-registration', 'activity-payment', 'create-activity'].includes(
-        child.name as string
-      ) && hasPermission(child)
+      [
+        'activity-registration',
+        // 'activity-payment',
+        'create-activity',
+        'activity-registration-approval'
+      ].includes(child.name as string) && hasPermission(child)
   )
 )
 </script>

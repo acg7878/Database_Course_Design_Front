@@ -6,12 +6,13 @@ import ClubRegistration from '../view/Club/ClubRegistration/index.vue'
 import clubRegistrationApproval from '@renderer/view/Club/ClubRegistration/club-registration-approval.vue'
 import CreateClub from '../view/Club/CreateClub/index.vue'
 import ActivityRegistration from '../view/Activity/ActivityRegistration/index.vue'
-import ActivityPayment from '../view/Activity/ActivityPayment/index.vue'
+// import ActivityPayment from '../view/Activity/ActivityPayment/index.vue'
 import CreateActivity from '../view/Activity/CreateActivity/index.vue'
 import ClubApproval from '../view/Club/ClubApproval/index.vue'
 import NotFound from '../view/Error/NotFound/index.vue'
 import Forbidden from '../view/Error/Forbidden/index.vue'
 import ClubMember from '../view/Club/ClubMember/index.vue'
+import ActivityRegistrationApproval from '../view/Activity/ActivityRegistrationApproval/index.vue'
 const routes = [
   {
     path: '/',
@@ -51,6 +52,16 @@ const routes = [
         }
       },
       {
+        path: 'club-approval',
+        name: 'club-approval',
+        component: ClubApproval,
+        meta: {
+          title: '创建社团审批',
+          icon: 'approval',
+          roles: ['admin']
+        }
+      },
+      {
         path: 'club-registration-approval',
         name: 'club-registration-approval',
         component: clubRegistrationApproval,
@@ -82,15 +93,25 @@ const routes = [
         }
       },
       {
-        path: 'activity-payment',
-        name: 'activity-payment',
-        component: ActivityPayment,
+        path: 'activity-registration-approval',
+        name: 'activity-registration-approval',
+        component: ActivityRegistrationApproval,
         meta: {
-          title: '活动缴费',
-          icon: 'payment',
-          roles: ['member', 'president']
+          title: '活动报名审批',
+          icon: 'approval',
+          roles: ['president']
         }
       },
+      // {
+      //   path: 'activity-payment',
+      //   name: 'activity-payment',
+      //   component: ActivityPayment,
+      //   meta: {
+      //     title: '活动缴费',
+      //     icon: 'payment',
+      //     roles: ['member', 'president']
+      //   }
+      // },
       {
         path: 'create-activity',
         name: 'create-activity',
@@ -99,16 +120,6 @@ const routes = [
           title: '创建活动',
           icon: 'create-activity',
           roles: ['president']
-        }
-      },
-      {
-        path: 'club-approval',
-        name: 'club-approval',
-        component: ClubApproval,
-        meta: {
-          title: '创建社团审批',
-          icon: 'approval',
-          roles: ['admin']
         }
       }
     ]

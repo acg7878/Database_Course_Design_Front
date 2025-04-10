@@ -242,3 +242,41 @@ export const getAllActivitiesByUser = async (): Promise<AxiosResponse> => {
 export const getClubMembers = async (clubId: string): Promise<AxiosResponse> => {
   return axios.get(`${API_BASE_URL}/club/member/list/${clubId}`)
 }
+
+/**
+ * 审核活动报名
+ * @param registrationId - 报名 ID
+ * @param registrationStatus - 审核状态 ("accepted" 或 "rejected")
+ * @returns AxiosResponse
+ */
+export const reviewActivityRegistration = async (
+  registrationId: number,
+  registrationStatus: string
+): Promise<AxiosResponse> => {
+  return axios.post(`${API_BASE_URL}/activity/register/review`, {
+    registration_id: registrationId,
+    registration_status: registrationStatus
+  })
+}
+
+/**
+ * 获取指定社团的所有活动
+ * @param clubId - 社团 ID
+ * @returns AxiosResponse
+ */
+export const getAllActivitiesByClub = async (clubId: number): Promise<AxiosResponse> => {
+  return axios.post(`${API_BASE_URL}/club/activity/all_by_club`, {
+    club_id: clubId
+  })
+}
+
+/**
+ * 获取指定社团的所有活动报名信息
+ * POST /club/activity/registrations
+ * @param clubId 社团ID
+ */
+export const getActivityRegistrationsByClub = (clubId: number): Promise<AxiosResponse> => {
+  return axios.post(`${API_BASE_URL}/club/activity/registrations`, {
+    club_id: clubId
+  })
+}

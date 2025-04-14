@@ -280,3 +280,30 @@ export const getActivityRegistrationsByClub = (clubId: number): Promise<AxiosRes
     club_id: clubId
   })
 }
+
+/**
+ * 获取用户报名的活动列表
+ * @param userId 用户 ID
+ * @returns AxiosResponse
+ */
+export const getUserRegisteredActivities = async (userId: number): Promise<AxiosResponse> => {
+  return axios.post(`${API_BASE_URL}/activity/registration/user`, {
+    user_id: userId
+  })
+}
+
+/**
+ * 更新活动报名的缴费状态
+ * @param registrationId 报名 ID
+ * @param paymentStatus 缴费状态（"已缴费" 或 "未缴费"）
+ * @returns AxiosResponse
+ */
+export const updatePaymentStatus = async (
+  registrationId: number,
+  paymentStatus: string
+): Promise<AxiosResponse> => {
+  return axios.post(`${API_BASE_URL}/activity/register/payment`, {
+    registration_id: registrationId,
+    payment_status: paymentStatus
+  })
+}

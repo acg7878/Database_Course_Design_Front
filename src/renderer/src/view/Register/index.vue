@@ -25,7 +25,6 @@
           <label for="role">注册身份</label>
           <select id="role" v-model="role">
             <option value="社员">社员</option>
-            <option value="社长">社长</option>
             <option value="管理员">管理员</option>
           </select>
         </div>

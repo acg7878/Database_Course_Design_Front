@@ -13,6 +13,8 @@ import NotFound from '../view/Error/NotFound/index.vue'
 import Forbidden from '../view/Error/Forbidden/index.vue'
 import ClubMember from '../view/Club/ClubMember/index.vue'
 import ActivityRegistrationApproval from '../view/Activity/ActivityRegistrationApproval/index.vue'
+import ActivityCheckin from '../view/Activity/ActivityCheckin/index.vue'
+import ActivityPayment from '../view/Activity/ActivityPayment/index.vue'
 const routes = [
   {
     path: '/',
@@ -89,6 +91,26 @@ const routes = [
           title: '活动报名',
           icon: 'activity',
           requiresAuth: true,
+          roles: ['member', 'president']
+        }
+      },
+      {
+        path: 'activity-checkin',
+        name: 'activity-checkin',
+        component: ActivityCheckin,
+        meta: {
+          title: '活动签到',
+          icon: 'checkin',
+          roles: ['member', 'president']
+        }
+      },
+      {
+        path: 'activity-payment',
+        name: 'activity-payment',
+        component: ActivityPayment,
+        meta: {
+          title: '活动缴费',
+          icon: 'checkin',
           roles: ['member', 'president']
         }
       },

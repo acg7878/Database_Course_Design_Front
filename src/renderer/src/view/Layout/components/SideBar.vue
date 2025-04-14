@@ -78,6 +78,8 @@ const activityMenuItems = computed(() =>
     (child) =>
       [
         'activity-registration',
+        'activity-checkin',
+        'activity-payment',
         // 'activity-payment',
         'create-activity',
         'activity-registration-approval'

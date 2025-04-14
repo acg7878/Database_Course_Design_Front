@@ -1,6 +1,6 @@
 <template>
-  <div class="activity-payment">
-    <h2>活动缴费</h2>
+  <div class="activity-checkin">
+    <h2>我的报名活动</h2>
 
     <!-- 活动列表 -->
     <el-table v-if="activities.length" :data="activities" border style="width: 100%">
@@ -14,44 +14,39 @@
       </el-table-column>
       <!-- 活动地点 -->
       <el-table-column prop="activity_location" label="活动地点" width="200" />
-      <!-- 缴费状态 -->
-      <el-table-column prop="payment_status" label="缴费状态" width="150">
+      <!-- 活动简介 -->
+      <el-table-column prop="activity_description" label="活动简介" />
+      <!-- 签到状态 -->
+      <el-table-column prop="checkin_status" label="签到状态" width="150">
         <template #default="scope">
-          <el-tag v-if="scope.row.payment_status === '已缴费'" type="success">已缴费</el-tag>
-          <el-tag v-else type="info">未缴费</el-tag>
+          <el-tag v-if="scope.row.checkin_status" type="success">已签到</el-tag>
+          <el-tag v-else type="info">未签到</el-tag>
         </template>
       </el-table-column>
-      <!-- 操作 -->
+      <!-- 签到操作 -->
       <el-table-column label="操作" width="150">
         <template #default="scope">
           <el-button
-            v-if="scope.row.payment_status !== '已缴费'"
+            v-if="!scope.row.checkin_status"
             type="primary"
             size="small"
-            @click="handlePayment(scope.row.registration_id, '已缴费')"
+            @click="handleCheckin(scope.row.activity_id)"
           >
-            缴费
+            签到
           </el-button>
-          <el-button
-            v-else
-            type="danger"
-            size="small"
-            @click="handlePayment(scope.row.registration_id, '未缴费')"
-          >
-            退费
-          </el-button>
+          <el-button v-else type="default" size="small" disabled>已签到</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <p v-else>暂无需要缴费的活动</p>
+    <p v-else>暂无报名活动</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getUserRegisteredActivities, updatePaymentStatus } from '@renderer/api'
+import { getUserRegisteredActivities, checkInActivity } from '@renderer/api'
 import { formatDate } from '@renderer/utils/time'
 import { isAxiosError } from 'axios'
 
@@ -61,12 +56,12 @@ const userId = Number(localStorage.getItem('user_id'))
 // 活动列表
 const activities = ref<
   {
-    registration_id: number
+    activity_id: number
     activity_title: string
     activity_time: string
     activity_location: string
-    registration_status: string
-    payment_status: string
+    activity_description: string
+    checkin_status: boolean // 新增字段，表示签到状态
   }[]
 >([])
 
@@ -74,7 +69,7 @@ const activities = ref<
 const fetchActivities = async (): Promise<void> => {
   try {
     const { data } = await getUserRegisteredActivities(userId)
-    activities.value = data.registered_activities || [] // 直接赋值，无需过滤
+    activities.value = data.registered_activities || []
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       const data = error.response?.data as { error?: string }
@@ -85,23 +80,16 @@ const fetchActivities = async (): Promise<void> => {
   }
 }
 
-// 更新缴费状态
-const handlePayment = async (registrationId: number, status: string): Promise<void> => {
-  console.log('调用 handlePayment 参数:', { registrationId, status }) // 调试日志
-  if (!registrationId || !status) {
-    ElMessage.error('缺少必要的参数，请稍后重试！')
-    return
-  }
+// 签到活动
+const handleCheckin = async (activityId: number): Promise<void> => {
   try {
-    const { data } = await updatePaymentStatus(registrationId, status)
-    console.log('接口返回数据:', data) // 调试日志
-    ElMessage.success(data.message || (status === '已缴费' ? '缴费成功！' : '退费成功！'))
+    const { data } = await checkInActivity(activityId)
+    ElMessage.success(data.message || '签到成功！')
     fetchActivities() // 刷新活动列表
   } catch (error: unknown) {
-    console.error('接口调用错误:', error) // 调试日志
     if (isAxiosError(error)) {
       const data = error.response?.data as { error?: string }
-      ElMessage.error(data?.error || '操作失败，请稍后重试！')
+      ElMessage.error(data?.error || '签到失败，请稍后重试！')
     } else {
       ElMessage.error('未知错误，请稍后重试！')
     }
@@ -115,7 +103,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.activity-payment {
+.activity-checkin {
   padding: 20px;
   background-color: #ffffff;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);

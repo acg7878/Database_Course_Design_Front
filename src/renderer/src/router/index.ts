@@ -124,16 +124,6 @@ const routes = [
           roles: ['president']
         }
       },
-      // {
-      //   path: 'activity-payment',
-      //   name: 'activity-payment',
-      //   component: ActivityPayment,
-      //   meta: {
-      //     title: '活动缴费',
-      //     icon: 'payment',
-      //     roles: ['member', 'president']
-      //   }
-      // },
       {
         path: 'create-activity',
         name: 'create-activity',

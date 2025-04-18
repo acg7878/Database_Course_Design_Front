@@ -16,7 +16,6 @@ export const registerUser = async (
 }
 
 export const loginUser = async (username: string, password: string): Promise<AxiosResponse> => {
-  //console.log("登录！！")
   return axios.post(`${API_BASE_URL}/user/login`, {
     username,
     password
